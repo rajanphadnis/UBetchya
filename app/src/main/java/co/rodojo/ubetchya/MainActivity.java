@@ -3,6 +3,7 @@ package co.rodojo.ubetchya;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.ParcelUuid;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +26,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class MainActivity extends AppCompatActivity {
     public static int REQUEST_BLUETOOTH = 1;
     private String TAG = "General";
+    private BluetoothDevice device;
+    private OutputStream outputStream;
+    private InputStream inStream;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
                 rep("finished");
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 rep("found");
-                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                deviceScanDevices(device.getName());
+                device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                deviceScanDevices(device.getName(), device.getUuids());
+
                 //Toast.makeText(MainActivity.this, "Found device " + device.getName(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -118,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(mReceiver);
         super.onDestroy();
     }
-    private void deviceScanDevices(String deviceName){
+    private void deviceScanDevices(String deviceName, final ParcelUuid[] uuids){
         LinearLayout ll = (LinearLayout) findViewById(R.id.mainline);
         TextView tv = new TextView(MainActivity.this);
         CardView cv = new CardView(MainActivity.this);
@@ -140,7 +150,18 @@ public class MainActivity extends AppCompatActivity {
         ll.addView(cv);
         cv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
+                try {
+                    BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
+                    socket.connect();
+                    outputStream = socket.getOutputStream();
+                    inStream = socket.getInputStream();
+                    String s = "Test";
+                    outputStream.write(s.getBytes());
+                }
+                catch (IOException e) {
+                    rep("IOEXCEPTION" + e);
+                }
 
             }
         });
