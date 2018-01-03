@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.rodojo.ubetchya.MainActivity">
+    tools:context="co.rodojo.ubetchya.MainActivity"
+    android:background="@color/background">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -17,15 +18,85 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <!--<include layout="@layout/content_main" />-->
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/mainline"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/home_main_text"
+            android:textSize="@dimen/home_text_size"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/main_text_margin"/>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/card_big_margin"
+            android:layout_marginTop="0dp"
+            app:cardCornerRadius="@dimen/card_corner_radius">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <android.support.v7.widget.CardView
+                    android:layout_margin="@dimen/card_padding"
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/account_card_view"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="20dp">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/minus_button"
+                        android:background="@color/white"
+                        android:text="-"
+                        android:textSize="@dimen/bold_textsize"
+                        android:layout_gravity="start"
+                        android:elevation="@dimen/button_elevation"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:id="@+id/credits_to_get"
+                        android:fontFamily="sans-serif"
+                        android:textSize="@dimen/bold_textsize"
+                        android:text="$0"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/plus_button"
+                        android:text="+"
+                        android:textSize="@dimen/bold_textsize"
+                        android:background="@color/white"
+                        android:layout_gravity="end"
+                        android:elevation="@dimen/button_elevation"/>
+                </android.support.v7.widget.CardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Choose Betting Device"
+                    android:gravity="center_horizontal"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mainline"
+                    android:orientation="vertical">
 
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+
+
+
     <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

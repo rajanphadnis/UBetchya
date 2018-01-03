@@ -4,4 +4,5 @@
     <string name="firebase_offline_message">You Are Offline</string>
     <string name="home">Home</string>
     <string name="login_title">Login</string>
+    <string name="home_main_text">Place Your Bets!</string>
 </resources>

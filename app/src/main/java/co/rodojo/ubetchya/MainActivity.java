@@ -8,12 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,11 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 rep("finished");
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 rep("found");
-                LinearLayout ll = (LinearLayout) findViewById(R.id.mainline);
-                TextView tv = new TextView(MainActivity.this);
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                tv.setText(device.getName());
-                ll.addView(tv);
+                deviceScanDevices(device.getName());
                 //Toast.makeText(MainActivity.this, "Found device " + device.getName(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -117,5 +117,32 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         unregisterReceiver(mReceiver);
         super.onDestroy();
+    }
+    private void deviceScanDevices(String deviceName){
+        LinearLayout ll = (LinearLayout) findViewById(R.id.mainline);
+        TextView tv = new TextView(MainActivity.this);
+        CardView cv = new CardView(MainActivity.this);
+        tv.setText(deviceName);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(50, 25, 50, 25);
+        cv.setLayoutParams(params);
+        cv.setRadius(30);
+        cv.setContentPadding(15, 15, 15, 15);
+        cv.setCardBackgroundColor(Color.parseColor("#f7f7f7"));
+        cv.setMaxCardElevation(15);
+        cv.setCardElevation(9);
+        tv.setLayoutParams(params);
+        tv.setGravity(Gravity.CENTER);
+        cv.addView(tv);
+        ll.addView(cv);
+        cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }
